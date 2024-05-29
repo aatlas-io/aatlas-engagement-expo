@@ -1,3 +1,3 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+import InAppGuide from './components/InAppGuide';
+export default InAppGuide;
+export { AatlasProvider, useAatlasService } from './context';
