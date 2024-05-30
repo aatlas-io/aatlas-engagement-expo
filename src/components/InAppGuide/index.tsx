@@ -119,7 +119,6 @@ const InAppGuide = ({
           style={[
             styles.centeredView,
             {
-              paddingTop: 12,
               paddingBottom: insets?.bottom ? 0 : 12,
               ...(background_color
                 ? { backgroundColor: background_color }
