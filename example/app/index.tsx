@@ -1,19 +1,31 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Button, View } from 'react-native';
 import 'react-native-gesture-handler';
-import { multiply } from '@aatlas/engagement-expo';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import InAppGuide, {
+  AatlasProvider,
+  useAatlasService,
+} from '@aatlas/engagement-expo';
 
-export default function Index() {
-  const [result, setResult] = React.useState<number | undefined>();
+const UserProfile = () => {
+  const { setUser } = useAatlasService();
 
   React.useEffect(() => {
-    multiply(3, Math.random()).then(setResult);
-  }, []);
+    setUser({
+      user_id: '12345',
+      name: 'Dave roe',
+      email: 'dave.roe@test.com',
+    });
+  }, [setUser]);
+
+  return null;
+};
+
+export default function Index() {
+  const [visible, setVisible] = React.useState<boolean>(true);
 
   return (
-    <SafeAreaProvider>
+    <AatlasProvider appId={7} appSecret="bRtf2Lwr6WMZ_QYrM7rI4">
       <View
         style={{
           flex: 1,
@@ -21,8 +33,10 @@ export default function Index() {
           alignItems: 'center',
         }}
       >
-        <Text>Result: {result}</Text>
+        <Button title="Open In app guide" onPress={() => setVisible(true)} />
+        <InAppGuide visible={visible} setVisible={setVisible} />
+        <UserProfile />
       </View>
-    </SafeAreaProvider>
+    </AatlasProvider>
   );
 }
