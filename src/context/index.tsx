@@ -1,24 +1,11 @@
-import React, {
-  useContext,
-  createContext,
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useContext, createContext, useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { AppState, Alert } from 'react-native';
 import * as Application from 'expo-application';
 import isEqual from 'lodash.isequal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
-import {
-  ANONYMOUS_USER_ID_KEY,
-  ENGAGEMENT_API,
-  IN_APP_GUIDE_SEEN_API,
-  SET_USER_API,
-} from '../constants';
+import { ANONYMOUS_USER_ID_KEY, ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SET_USER_API } from '../constants';
 
 const AatlasServiceContext = createContext<ConfigType>({
   appConfig: null,
@@ -73,15 +60,7 @@ export const AatlasProvider = ({
   }, []);
 
   const setUser = useCallback(
-    ({
-      user_id,
-      name,
-      email,
-    }: {
-      user_id?: string;
-      name?: string;
-      email?: string;
-    }) => {
+    ({ user_id, name, email }: { user_id?: string; name?: string; email?: string }) => {
       setUserDetails({ user_id, name, email });
     },
     [setUserDetails]
@@ -102,21 +81,11 @@ export const AatlasProvider = ({
   }, []);
 
   const updateUser = useCallback(
-    async ({
-      user_id = '',
-      name = '',
-      email = '',
-    }: {
-      user_id?: string;
-      name?: string;
-      email?: string;
-    }) => {
+    async ({ user_id = '', name = '', email = '' }: { user_id?: string; name?: string; email?: string }) => {
       try {
         const anonymous_user_id = await getAnonymousUserId();
         if (!appSecret) {
-          throw new Error(
-            '@aatlas/engagement app is not initialized. Please follow the documentation'
-          );
+          throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
         }
 
         if (!anonymous_user_id) {
@@ -157,9 +126,7 @@ export const AatlasProvider = ({
 
   const getAppConfig = useCallback(async () => {
     if (!appId || !appSecret) {
-      Alert.alert('Error', 'Invalid appEnvId or appSecret', [
-        { text: 'OK', onPress: () => {} },
-      ]);
+      Alert.alert('Error', 'Invalid appEnvId or appSecret', [{ text: 'OK', onPress: () => {} }]);
     } else {
       try {
         const anonymous_user_id = await getAnonymousUserId();
@@ -192,23 +159,14 @@ export const AatlasProvider = ({
         console.error('Failed to fetch engagement config: ', error);
       }
     }
-  }, [
-    appConfig,
-    appSecret,
-    appId,
-    getAnonymousUserId,
-    userDetails,
-    updateUser,
-  ]);
+  }, [appConfig, appSecret, appId, getAnonymousUserId, userDetails, updateUser]);
 
   const updateInAppGuidesSeenStatus = useCallback(
     async (data: InAppGuidesStatus) => {
       const anonymous_user_id = await getAnonymousUserId();
       try {
         if (!appId || !appSecret) {
-          throw new Error(
-            '@aatlas/engagement app is not initialized. Please follow the documentation'
-          );
+          throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
         }
 
         if (!anonymous_user_id) {
@@ -233,10 +191,7 @@ export const AatlasProvider = ({
         }
       } catch (error) {
         if (error instanceof Error) {
-          console.error(
-            'Aatlas updateInAppGuidesSeenStatus failed: ',
-            error.message
-          );
+          console.error('Aatlas updateInAppGuidesSeenStatus failed: ', error.message);
         } else {
           console.error('Aatlas updateInAppGuidesSeenStatus failed: ', error);
         }
@@ -255,10 +210,7 @@ export const AatlasProvider = ({
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
         getAppConfig();
       }
 
@@ -280,9 +232,5 @@ export const AatlasProvider = ({
     [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides]
   );
 
-  return (
-    <AatlasServiceContext.Provider value={values}>
-      {children}
-    </AatlasServiceContext.Provider>
-  );
+  return <AatlasServiceContext.Provider value={values}>{children}</AatlasServiceContext.Provider>;
 };

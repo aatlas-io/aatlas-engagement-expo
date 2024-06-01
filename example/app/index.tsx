@@ -2,10 +2,7 @@
 import * as React from 'react';
 import { Button, View } from 'react-native';
 import 'react-native-gesture-handler';
-import InAppGuide, {
-  AatlasProvider,
-  useAatlasService,
-} from '@aatlas/engagement-expo';
+import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
 
 const UserProfile = () => {
   const { setUser } = useAatlasService();

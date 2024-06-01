@@ -2,12 +2,7 @@ import React from 'react';
 import type { ReactNode } from 'react';
 import { Pressable } from 'react-native';
 import type { StyleProp, ViewStyle, GestureResponderEvent } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
