@@ -22,7 +22,7 @@ export default function Index() {
   const [visible, setVisible] = React.useState<boolean>(true);
 
   return (
-    <AatlasProvider appId={7} appSecret="bRtf2Lwr6WMZ_QYrM7rI4">
+    <AatlasProvider appKey="" appSecret="">
       <View
         style={{
           flex: 1,

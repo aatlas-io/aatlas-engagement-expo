@@ -32,11 +32,11 @@ export const useAatlasService = () => {
 };
 
 export const AatlasProvider = ({
-  appId,
+  appKey,
   appSecret,
   children,
 }: {
-  appId: number;
+  appKey: string;
   appSecret: string;
   children: ReactNode;
 }) => {
@@ -49,11 +49,11 @@ export const AatlasProvider = ({
   }>({ user_id: '', name: '', email: '' });
 
   const globalDataRef = useRef<GlobalDataType>({
-    appId: 0,
+    appKey: '',
     appSecret: '',
     anonymousUserId: '',
   });
-  globalDataRef.current = { ...globalDataRef.current, appId, appSecret };
+  globalDataRef.current = { ...globalDataRef.current, appKey, appSecret };
 
   const resetInAppGuides = useCallback(() => {
     setAppConfig({ in_app_guides: [] });
@@ -98,7 +98,7 @@ export const AatlasProvider = ({
             'x-app-secret': appSecret,
           },
           body: JSON.stringify({
-            app_id: appId,
+            app_key: appKey,
             user_id,
             name,
             email,
@@ -121,12 +121,12 @@ export const AatlasProvider = ({
 
       return null;
     },
-    [appSecret, appId, getAnonymousUserId]
+    [appSecret, appKey, getAnonymousUserId]
   );
 
   const getAppConfig = useCallback(async () => {
-    if (!appId || !appSecret) {
-      Alert.alert('Error', 'Invalid appEnvId or appSecret', [{ text: 'OK', onPress: () => {} }]);
+    if (!appKey || !appSecret) {
+      Alert.alert('Error', 'Invalid appKey or appSecret', [{ text: 'OK', onPress: () => {} }]);
     } else {
       try {
         const anonymous_user_id = await getAnonymousUserId();
@@ -137,7 +137,7 @@ export const AatlasProvider = ({
             'x-app-secret': appSecret,
           },
           body: JSON.stringify({
-            app_id: appId,
+            app_key: appKey,
             app_version: Application.nativeApplicationVersion,
             anonymous_user_id,
           }),
@@ -159,13 +159,13 @@ export const AatlasProvider = ({
         console.error('Failed to fetch engagement config: ', error);
       }
     }
-  }, [appConfig, appSecret, appId, getAnonymousUserId, userDetails, updateUser]);
+  }, [appConfig, appSecret, appKey, getAnonymousUserId, userDetails, updateUser]);
 
   const updateInAppGuidesSeenStatus = useCallback(
     async (data: InAppGuidesStatus) => {
       const anonymous_user_id = await getAnonymousUserId();
       try {
-        if (!appId || !appSecret) {
+        if (!appKey || !appSecret) {
           throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
         }
 
@@ -179,7 +179,7 @@ export const AatlasProvider = ({
             'x-app-secret': appSecret,
           },
           body: JSON.stringify({
-            app_id: appId,
+            app_key: appKey,
             anonymous_user_id,
             in_app_guide_ids: data,
           }),
@@ -199,7 +199,7 @@ export const AatlasProvider = ({
 
       return null;
     },
-    [appSecret, appId, getAnonymousUserId]
+    [appSecret, appKey, getAnonymousUserId]
   );
 
   useEffect(() => {
