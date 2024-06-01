@@ -67,7 +67,7 @@ const App = () => {
 
 ## Required dependencies
 
-(Note: All required dependencies are expo managed)
+(Note: All required dependencies are available via expo)
 
 - [react-native-reanimated](https://docs.expo.dev/versions/latest/sdk/reanimated/)
 - [react-native-gesture-handler](https://docs.expo.dev/versions/latest/sdk/gesture-handler/)
