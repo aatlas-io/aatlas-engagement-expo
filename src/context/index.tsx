@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { AppState, Alert } from 'react-native';
-import * as Application from 'expo-application';
+import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
@@ -103,7 +103,7 @@ export const AatlasProvider = ({
             name,
             email,
             anonymous_user_id,
-            app_version: Application.nativeApplicationVersion,
+            app_version: Constants.expoConfig?.version,
           }),
         });
 
