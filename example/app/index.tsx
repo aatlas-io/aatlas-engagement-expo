@@ -18,7 +18,7 @@ const UserProfile = () => {
 };
 
 export default function Index() {
-  const [visible, setVisible] = React.useState<boolean>(true);
+  const [visible, setVisible] = React.useState<boolean>(false);
   return (
     <AatlasProvider appKey="" appSecret="">
       <View
