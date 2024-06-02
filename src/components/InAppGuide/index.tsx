@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Modal, SafeAreaView, StyleSheet, Image, FlatList, Animated, Dimensions } from 'react-native';
+import { Modal, SafeAreaView, StyleSheet, Image, FlatList, Animated, Dimensions, TouchableOpacity } from 'react-native';
 import { useAatlasService } from '../../context';
 import Button from '../Button';
 import CarouselItem from './CarouselItem';
@@ -86,7 +86,7 @@ const InAppGuide = ({
   return (
     <Modal animationType="slide" transparent visible={visible}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-        <Button containerStyle={[styles.closeButtonContainer, { left: width - 50, top: 10 }]} onPress={onClosePress}>
+        <TouchableOpacity style={[styles.closeButtonContainer, { left: width - 50, top: 10 }]} onPress={onClosePress}>
           <Image
             style={styles.closeImage}
             source={{
@@ -94,7 +94,7 @@ const InAppGuide = ({
             }}
             resizeMode="cover"
           />
-        </Button>
+        </TouchableOpacity>
         <FlatList
           data={in_app_guides}
           renderItem={({ item }) => <CarouselItem item={item} />}

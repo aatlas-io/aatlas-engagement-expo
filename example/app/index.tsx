@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import { Button, View } from 'react-native';
-import 'react-native-gesture-handler';
 import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
 
 const UserProfile = () => {
@@ -20,7 +19,6 @@ const UserProfile = () => {
 
 export default function Index() {
   const [visible, setVisible] = React.useState<boolean>(true);
-
   return (
     <AatlasProvider appKey="" appSecret="">
       <View

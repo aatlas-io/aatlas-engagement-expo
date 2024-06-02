@@ -70,7 +70,7 @@ const App = () => {
 (Note: All required dependencies are available via expo)
 
 - [@react-native-async-storage/async-storage](https://docs.expo.dev/versions/latest/sdk/async-storage/)
-- [expo-application](https://docs.expo.dev/versions/latest/sdk/application/)
+- [expo-constants](https://docs.expo.dev/versions/latest/sdk/constants/)
 
 ## License
 
