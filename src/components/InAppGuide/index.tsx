@@ -59,10 +59,10 @@ const InAppGuide = ({
 
   const onClosePress = () => {
     updateInAppGuidesSeenStatus(seenIdsRef.current);
-
     seenIdsRef.current = { seen: [], notSeen: [] };
     resetInAppGuides();
     setVisible(!visible);
+    setSelectedIndex(0);
   };
 
   const handleOnScroll = (event: any) => {
