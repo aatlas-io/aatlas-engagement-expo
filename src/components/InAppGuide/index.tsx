@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Modal, SafeAreaView, StyleSheet, Image, FlatList, Animated, Dimensions, TouchableOpacity } from 'react-native';
 import { useAatlasService } from '../../context';
-import Button from '../Button';
 import CarouselItem from './CarouselItem';
 import Pagination from './Pagination';
 
