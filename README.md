@@ -69,11 +69,8 @@ const App = () => {
 
 (Note: All required dependencies are available via expo)
 
-- [react-native-reanimated](https://docs.expo.dev/versions/latest/sdk/reanimated/)
-- [react-native-gesture-handler](https://docs.expo.dev/versions/latest/sdk/gesture-handler/)
-- [react-native-safe-area-context](https://docs.expo.dev/versions/latest/sdk/safe-area-context/)
 - [@react-native-async-storage/async-storage](https://docs.expo.dev/versions/latest/sdk/async-storage/)
-- [react-native-device-info](https://docs.expo.dev/versions/latest/sdk/application/)
+- [expo-application](https://docs.expo.dev/versions/latest/sdk/application/)
 
 ## License
 
