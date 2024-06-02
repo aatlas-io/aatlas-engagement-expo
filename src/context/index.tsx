@@ -138,7 +138,7 @@ export const AatlasProvider = ({
           },
           body: JSON.stringify({
             app_key: appKey,
-            app_version: Application.nativeApplicationVersion,
+            app_version: Constants.expoConfig?.version,
             anonymous_user_id,
           }),
         });
