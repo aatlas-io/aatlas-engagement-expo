@@ -42,10 +42,6 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-native: 0.74.1
-    react-native-gesture-handler: ~2.16.1
-    react-native-reanimated: ~3.10.1
-    react-native-safe-area-context: 4.10.1
-    react-native-screens: 3.31.1
     react-native-web: ~0.19.10
   languageName: unknown
   linkType: soft
@@ -73,11 +69,9 @@ __metadata:
     prettier: ^3.0.3
     react: 18.2.0
     react-native: 0.74.1
-    react-native-animated-dots-carousel: ^1.0.2
     react-native-builder-bob: ^0.23.2
     react-native-gesture-handler: ^2.16.2
     react-native-reanimated: ^3.11.0
-    react-native-reanimated-carousel: ^3.5.1
     react-native-safe-area-context: ^4.10.1
     react-native-uuid: ^2.0.2
     release-it: ^15.0.0
@@ -87,9 +81,6 @@ __metadata:
     expo-application: ^5.9.1
     react: "*"
     react-native: "*"
-    react-native-gesture-handler: ~2.16.1
-    react-native-reanimated: ~3.10.1
-    react-native-safe-area-context: ^4.10.1
   languageName: unknown
   linkType: soft
 
@@ -15437,15 +15428,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-freeze@npm:^1.0.0":
-  version: 1.0.4
-  resolution: "react-freeze@npm:1.0.4"
-  peerDependencies:
-    react: ">=17.0.0"
-  checksum: 6b4d93209dff04a1f25d9f8e0c56a9a8a80e7889e8e8267299f34449c7e41a9ab90cad24569d03dd7173b56b7496576dba68f71f1d4e5c8be72f0633023668bc
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.12.0 || ^17.0.0 || ^18.0.0, react-is@npm:^18.0.0, react-is@npm:^18.2.0":
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
@@ -15464,16 +15446,6 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
-  languageName: node
-  linkType: hard
-
-"react-native-animated-dots-carousel@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "react-native-animated-dots-carousel@npm:1.0.2"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 82b696d1c06adc210a477684bc894f161d1592702b7184361df8d353b67f83108ffda6d0fa7f9f003c2c040bda1616b9aed4e2f466663f5baf01b48c6fd80937
   languageName: node
   linkType: hard
 
@@ -15506,7 +15478,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.16.2, react-native-gesture-handler@npm:~2.16.1":
+"react-native-gesture-handler@npm:^2.16.2":
   version: 2.16.2
   resolution: "react-native-gesture-handler@npm:2.16.2"
   dependencies:
@@ -15535,18 +15507,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated-carousel@npm:^3.5.1":
-  version: 3.5.1
-  resolution: "react-native-reanimated-carousel@npm:3.5.1"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-native: ">=0.6.0"
-    react-native-gesture-handler: ">=2.0.0"
-    react-native-reanimated: ">=3.0.0"
-  checksum: a2eb640453fa35f659c1fb5575f903364d513fb7f621104afa14fee2284132674dfaf0d87cb29e8c119f7513094a5967d5193f3dfa24043af167c6f26abcfe73
-  languageName: node
-  linkType: hard
-
 "react-native-reanimated@npm:^3.11.0":
   version: 3.11.0
   resolution: "react-native-reanimated@npm:3.11.0"
@@ -15567,46 +15527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:~3.10.1":
-  version: 3.10.1
-  resolution: "react-native-reanimated@npm:3.10.1"
-  dependencies:
-    "@babel/plugin-transform-arrow-functions": ^7.0.0-0
-    "@babel/plugin-transform-nullish-coalescing-operator": ^7.0.0-0
-    "@babel/plugin-transform-optional-chaining": ^7.0.0-0
-    "@babel/plugin-transform-shorthand-properties": ^7.0.0-0
-    "@babel/plugin-transform-template-literals": ^7.0.0-0
-    "@babel/preset-typescript": ^7.16.7
-    convert-source-map: ^2.0.0
-    invariant: ^2.2.4
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-    react: "*"
-    react-native: "*"
-  checksum: b41808a122799806a524601e75620c8d79ebf8a0127f57fe370412f90471560005f65df8549fd8c39e627c58141a921c849fec9d263f481f153f0ddc90e4a5b6
-  languageName: node
-  linkType: hard
-
-"react-native-safe-area-context@npm:4.10.1, react-native-safe-area-context@npm:^4.10.1":
+"react-native-safe-area-context@npm:^4.10.1":
   version: 4.10.1
   resolution: "react-native-safe-area-context@npm:4.10.1"
   peerDependencies:
     react: "*"
     react-native: "*"
   checksum: a0f31a66f0aba7050cfdc34512349f49dd65349d53407d461196fa70010f65aca7310212d5c7c47078745db6e02975a4d97881d0340160d40e0feb5a4a5d9de2
-  languageName: node
-  linkType: hard
-
-"react-native-screens@npm:3.31.1":
-  version: 3.31.1
-  resolution: "react-native-screens@npm:3.31.1"
-  dependencies:
-    react-freeze: ^1.0.0
-    warn-once: ^0.1.0
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 1fc61cf7a223b3ef1c8000e74416c8953561c5fa0861557da43659db62a640e37fb51fbdc35dae810a665881a7aa9eeaf1873e90f67404b4dda53a672464a7fe
   languageName: node
   linkType: hard
 
