@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { AppState, Alert } from 'react-native';
+import { AppState, Alert, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -48,13 +48,6 @@ export const AatlasProvider = ({
     email?: string;
   }>({ user_id: '', name: '', email: '' });
 
-  const globalDataRef = useRef<GlobalDataType>({
-    appKey: '',
-    appSecret: '',
-    anonymousUserId: '',
-  });
-  globalDataRef.current = { ...globalDataRef.current, appKey, appSecret };
-
   const resetInAppGuides = useCallback(() => {
     setAppConfig({ in_app_guides: [] });
   }, []);
@@ -72,10 +65,6 @@ export const AatlasProvider = ({
       value = uuid.v4() as string;
       await AsyncStorage.setItem(ANONYMOUS_USER_ID_KEY, value);
     }
-    globalDataRef.current = {
-      ...globalDataRef.current,
-      anonymousUserId: value,
-    };
 
     return value;
   }, []);
@@ -104,6 +93,7 @@ export const AatlasProvider = ({
             email,
             anonymous_user_id,
             app_version: Constants.expoConfig?.version,
+            platform: Platform.OS,
           }),
         });
 
@@ -138,8 +128,9 @@ export const AatlasProvider = ({
           },
           body: JSON.stringify({
             app_key: appKey,
-            app_version: Constants.expoConfig?.version,
             anonymous_user_id,
+            app_version: Constants.expoConfig?.version,
+            platform: Platform.OS,
           }),
         });
         const json: AppConfigType = await response.json();
@@ -182,6 +173,7 @@ export const AatlasProvider = ({
             app_key: appKey,
             anonymous_user_id,
             in_app_guide_ids: data,
+            platform: Platform.OS,
           }),
         });
 
