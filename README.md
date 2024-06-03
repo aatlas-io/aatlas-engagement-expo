@@ -17,7 +17,7 @@ yarn add @aatlas/engagement-expo
 ## Usage
 
 ```js
-import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement';
+import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
 
 // ...
 
