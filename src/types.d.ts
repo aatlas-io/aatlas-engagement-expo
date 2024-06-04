@@ -21,14 +21,6 @@ type ConfigType = {
   resetInAppGuides: () => void;
 };
 
-type RenderItemType = {
-  item: {
-    title: string;
-    image: string;
-    description: string;
-  };
-};
-
 type GlobalDataType = {
   appKey: string;
   appSecret: string;

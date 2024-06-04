@@ -7,10 +7,14 @@ const Pagination = ({
   data,
   scrollX,
   index,
+  selectedDotColor,
+  unselectedDotColor,
 }: {
   data: InAppGuideItemType[];
   scrollX: Animated.Value;
   index: number;
+  selectedDotColor?: string;
+  unselectedDotColor?: string;
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -63,7 +67,7 @@ const Pagination = ({
 
           const backgroundColor = scrollX.interpolate({
             inputRange,
-            outputRange: ['#808080', '#000', '#808080'],
+            outputRange: [unselectedDotColor || '#808080', selectedDotColor || '#000', unselectedDotColor || '#808080'],
             extrapolate: 'clamp',
           });
 
@@ -96,6 +100,5 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     marginHorizontal: 3,
-    backgroundColor: '#808080',
   },
 });

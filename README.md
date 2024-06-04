@@ -57,7 +57,19 @@ const App = () => {
         }}
       >
         <Button title="Open In app guide" onPress={() => setVisible(true)} />
-        <InAppGuide visible={visible} setVisible={setVisible} /> // Use the InAppGuide component with the required props
+        <InAppGuide
+          visible={visible}
+          onClose={() => {
+            setVisible(false);
+          }}
+          containerStyle={{}}
+          contentContainerStyle={{}}
+          titleStyle={{}}
+          descriptionStyle={{}}
+          onCarouselChange={(data) => console.log(data)}
+          selectedDotColor=""
+          unselectedDotColor=""
+        /> // Use the InAppGuide component with the required props
         <UserProfile /> // setUser usage
       </View>
     </AatlasProvider>

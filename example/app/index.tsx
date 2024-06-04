@@ -29,7 +29,19 @@ export default function Index() {
         }}
       >
         <Button title="Open In app guide" onPress={() => setVisible(true)} />
-        <InAppGuide visible={visible} setVisible={setVisible} />
+        <InAppGuide
+          visible={visible}
+          onClose={() => {
+            setVisible(false);
+          }}
+          containerStyle={{}}
+          titleStyle={{}}
+          descriptionStyle={{}}
+          unselectedDotColor=""
+          selectedDotColor=""
+          contentContainerStyle={{}}
+          onCarouselChange={(data) => console.log(data)}
+        />
         <UserProfile />
       </View>
     </AatlasProvider>

@@ -1,13 +1,39 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Animated, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Animated,
+  ScrollView,
+  type StyleProp,
+  type ViewStyle,
+  type TextStyle,
+} from 'react-native';
 import { normalizeFont } from '../../fontsHelper';
 
 const { width, height } = Dimensions.get('screen');
 
-const CarouselItem = ({ item: { title, image, description } }: RenderItemType) => {
+type RenderItemType = {
+  item: {
+    title: string;
+    image: string;
+    description: string;
+  };
+  titleStyle: StyleProp<TextStyle>;
+  descriptionStyle: StyleProp<TextStyle>;
+  contentContainerStyle: StyleProp<ViewStyle>;
+};
+
+const CarouselItem = ({
+  item: { title, image, description },
+  titleStyle,
+  descriptionStyle,
+  contentContainerStyle,
+}: RenderItemType) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, contentContainerStyle]}>
       <Animated.Image
         source={{ uri: image }}
         resizeMode="contain"
@@ -15,13 +41,13 @@ const CarouselItem = ({ item: { title, image, description } }: RenderItemType) =
       />
 
       <View style={styles.content}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, titleStyle]}>{title}</Text>
         <ScrollView
           style={{ height: 100 }}
           contentContainerStyle={{ width: width - 40 }}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.description}>{description}</Text>
+          <Text style={[styles.description, descriptionStyle]}>{description}</Text>
         </ScrollView>
       </View>
     </View>

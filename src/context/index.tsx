@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { AppState, Alert, Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -116,7 +116,7 @@ export const AatlasProvider = ({
 
   const getAppConfig = useCallback(async () => {
     if (!appKey || !appSecret) {
-      Alert.alert('Error', 'Invalid appKey or appSecret', [{ text: 'OK', onPress: () => {} }]);
+      console.error('Invalid appKey or appSecret');
     } else {
       try {
         const anonymous_user_id = await getAnonymousUserId();
