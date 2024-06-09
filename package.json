@@ -1,6 +1,6 @@
 {
   "name": "@aatlas/engagement-expo",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Enhance feature awareness and drive success with our advanced nudging platform. Aatlas is a powerful tool designed to boost engagement for your newly launched feature.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
