@@ -36,7 +36,7 @@ const CarouselItem = ({
     <View style={[styles.container, contentContainerStyle]}>
       <Animated.Image
         source={{ uri: image }}
-        resizeMode="contain"
+        resizeMode="cover"
         style={[styles.image, { height: width - 32, width: width - 32 }]}
       />
 
