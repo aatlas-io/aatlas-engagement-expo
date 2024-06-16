@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
-import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SET_USER_API } from '../constants';
+import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SEND_FEEDBACK_API, SET_USER_API } from '../constants';
 import { aatlasFetch } from '../utils';
 
 const AatlasServiceContext = createContext<ConfigType>({
@@ -115,8 +115,24 @@ export const AatlasProvider = ({
         },
         scope: 'updateInAppGuidesSeenStatus',
       });
+    },
+    [appSecret, appKey]
+  );
 
-      return null;
+  const sendFeedback = useCallback(
+    async ({ message, type }: FeedbackType) => {
+      await aatlasFetch({
+        appKey,
+        appSecret,
+        url: SEND_FEEDBACK_API,
+        body: {
+          app_key: appKey,
+          message,
+          type,
+          platform: Platform.OS,
+        },
+        scope: 'sendFeedback',
+      });
     },
     [appSecret, appKey]
   );
@@ -147,8 +163,9 @@ export const AatlasProvider = ({
       updateInAppGuidesSeenStatus,
       setUser,
       resetInAppGuides,
+      sendFeedback,
     }),
-    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides]
+    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback]
   );
 
   return <AatlasServiceContext.Provider value={values}>{children}</AatlasServiceContext.Provider>;

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,9 @@ import {
   SafeAreaView,
   StyleSheet,
   Image,
-  FlatList,
-  Animated,
-  Dimensions,
   TouchableOpacity,
   TextInput,
   Keyboard,
-  Pressable,
   type StyleProp,
   type ViewStyle,
   type TextStyle,
@@ -22,58 +18,75 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useAatlasService } from '../../context';
 import { CLOSE_URI } from '../../constants';
 import { normalizeFont } from '../../fontsHelper';
-import CloseIcon from '../../assets/close.png';
-import Button, { buttonContainerStyle } from '../Button';
-
-const { width } = Dimensions.get('window');
+import Button, { defaultButtonContainerStyle } from '../Button';
 
 const Feedback = ({
-  visible,
-  onClose,
+  feedbackRef,
+  title = 'Feedback',
   placeholder = 'What would you like to share?',
-  // containerStyle,
-  // contentContainerStyle,
-  // titleStyle,
-  // descriptionStyle,
-  // selectedDotColor,
-  // unselectedDotColor,
-  // onCarouselChange = () => undefined,
+  subtitle = 'Your feedback is very important to us. Please take a few minutes and leave us a feedback.',
+  titleStyle,
+  inputStyle,
+  subtitleStyle,
+  containerStyle,
+  buttonTitleStyle,
+  buttonContainerStyle,
 }: {
-  visible: boolean;
-  onClose: () => void;
-  placeholder: string | '';
-  // containerStyle?: StyleProp<ViewStyle>;
-  // contentContainerStyle?: StyleProp<ViewStyle>;
-  // titleStyle?: StyleProp<TextStyle>;
-  // descriptionStyle?: StyleProp<TextStyle>;
-  // selectedDotColor?: string;
-  // unselectedDotColor?: string;
-  // onCarouselChange?: (data: any) => void;
+  feedbackRef: React.MutableRefObject<any>;
+  title?: string;
+  subtitle?: string;
+  placeholder?: string | '';
+  titleStyle?: StyleProp<TextStyle>;
+  subtitleStyle?: StyleProp<TextStyle>;
+  inputStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  buttonContainerStyle?: StyleProp<ViewStyle>;
+  buttonTitleStyle?: StyleProp<TextStyle>;
 }) => {
-  const inputRef = useRef('');
+  const [visible, setVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { sendFeedback } = useAatlasService();
 
-  const submitFeedback = () => {
-    // api call
+  const onClose = useCallback(() => {
+    setIsLoading(false);
+    setMessage('');
+    setVisible(false);
+  }, []);
+
+  useEffect(() => {
+    if (feedbackRef) {
+      feedbackRef.current = {
+        open: () => setVisible(true),
+        close: onClose,
+      };
+    }
+  }, [feedbackRef, onClose]);
+
+  const submitFeedback = async () => {
+    setIsLoading(true);
+    await sendFeedback({
+      message,
+      type: 'general',
+    });
     onClose();
   };
 
   return (
     <Modal animationType="slide" transparent visible={visible}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <SafeAreaView style={[{ flex: 1, backgroundColor: 'white' }, containerStyle]}>
         <KeyboardAwareScrollView>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>Feedback</Text>
+            <Text style={[styles.title, titleStyle]}>{title}</Text>
             <TouchableOpacity style={styles.closeButtonContainer} onPress={onClose}>
               <Image style={styles.closeImage} source={{ uri: CLOSE_URI }} resizeMode="contain" />
             </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <TextInput
-              style={styles.input}
-              onChangeText={(text) => {
-                inputRef.current = text;
-              }}
+              style={[styles.input, inputStyle]}
+              value={message}
+              onChangeText={setMessage}
               placeholder={placeholder}
               multiline
               autoFocus
@@ -83,15 +96,21 @@ const Feedback = ({
               selectionColor={'black'}
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit
+              textAlignVertical="top"
             />
             <View style={{ height: 16 }} />
-            <Text style={styles.subtitle}>
-              Your feedback is very important to us. Please take a few minutes and leave us a feedback.
-            </Text>
+            <Text style={[styles.subtitle, subtitleStyle]}>{subtitle}</Text>
           </View>
         </KeyboardAwareScrollView>
-        <View style={buttonContainerStyle}>
-          <Button title="Submit" isLoading={isLoading} onPress={submitFeedback} />
+        <View style={defaultButtonContainerStyle}>
+          <Button
+            title="Submit"
+            isLoading={isLoading}
+            onPress={submitFeedback}
+            disabled={!message}
+            titleStyle={buttonTitleStyle}
+            containerStyle={buttonContainerStyle}
+          />
         </View>
       </SafeAreaView>
     </Modal>

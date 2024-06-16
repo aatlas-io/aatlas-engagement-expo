@@ -14,16 +14,22 @@ const Button = ({
   title,
   onPress,
   isLoading,
+  disabled,
   titleStyle,
   containerStyle,
 }: {
   title: string;
   onPress: () => void;
   isLoading: boolean;
+  disabled: boolean;
   titleStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
 }) => (
-  <Pressable onPress={onPress} style={[styles.button, containerStyle]} disabled={isLoading}>
+  <Pressable
+    onPress={onPress}
+    style={[styles.button, containerStyle, disabled ? styles.buttonDisabled : {}]}
+    disabled={isLoading || disabled}
+  >
     {isLoading ? (
       <ActivityIndicator size="small" color="white" />
     ) : (
@@ -53,6 +59,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  buttonDisabled: {
+    backgroundColor: '#F0F2F5',
+  },
   buttonTitle: {
     color: 'white',
     fontSize: normalizeFont(12),
@@ -60,6 +69,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export const buttonContainerStyle = styles.buttonContainer;
+export const defaultButtonContainerStyle = styles.buttonContainer;
 
 export default Button;
