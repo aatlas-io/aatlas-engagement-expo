@@ -3,9 +3,8 @@ import type { ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid';
-import { ANONYMOUS_USER_ID_KEY, ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SET_USER_API } from '../constants';
+import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SET_USER_API } from '../constants';
+import { aatlasFetch } from '../utils';
 
 const AatlasServiceContext = createContext<ConfigType>({
   appConfig: null,
@@ -59,139 +58,67 @@ export const AatlasProvider = ({
     [setUserDetails]
   );
 
-  const getAnonymousUserId = useCallback(async (): Promise<string> => {
-    let value = await AsyncStorage.getItem(ANONYMOUS_USER_ID_KEY);
-    if (!value) {
-      value = uuid.v4() as string;
-      await AsyncStorage.setItem(ANONYMOUS_USER_ID_KEY, value);
-    }
-
-    return value;
-  }, []);
-
   const updateUser = useCallback(
     async ({ user_id = '', name = '', email = '' }: { user_id?: string; name?: string; email?: string }) => {
-      try {
-        const anonymous_user_id = await getAnonymousUserId();
-        if (!appSecret) {
-          throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
-        }
-
-        if (!anonymous_user_id) {
-          throw new Error('Organization user does not exist');
-        }
-
-        const response = await fetch(SET_USER_API, {
-          method: 'POST',
-          headers: {
-            'x-app-secret': appSecret,
-          },
-          body: JSON.stringify({
-            app_key: appKey,
-            user_id,
-            name,
-            email,
-            anonymous_user_id,
-            app_version: Constants.expoConfig?.version,
-            platform: Platform.OS,
-          }),
-        });
-
-        if (!response.ok) {
-          const json = await response.json();
-          throw new Error(JSON.stringify(json));
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Aatlas setUser failed: ', error.message);
-        } else {
-          console.error('Aatlas setUser failed: ', error);
-        }
-      }
-
-      return null;
+      await aatlasFetch({
+        appKey,
+        appSecret,
+        url: SET_USER_API,
+        body: {
+          app_key: appKey,
+          user_id,
+          name,
+          email,
+          app_version: Constants.expoConfig?.version,
+          platform: Platform.OS,
+        },
+        scope: 'updateUser',
+      });
     },
-    [appSecret, appKey, getAnonymousUserId]
+    [appSecret, appKey]
   );
 
   const getAppConfig = useCallback(async () => {
-    if (!appKey || !appSecret) {
-      console.error('Invalid appKey or appSecret');
-    } else {
-      try {
-        const anonymous_user_id = await getAnonymousUserId();
+    const data: AppConfigType = await aatlasFetch({
+      appKey,
+      appSecret,
+      url: ENGAGEMENT_API,
+      body: {
+        app_key: appKey,
+        app_version: Constants.expoConfig?.version,
+        platform: Platform.OS,
+      },
+      scope: 'getAppConfig',
+    });
 
-        const response = await fetch(ENGAGEMENT_API, {
-          method: 'POST',
-          headers: {
-            'x-app-secret': appSecret,
-          },
-          body: JSON.stringify({
-            app_key: appKey,
-            anonymous_user_id,
-            app_version: Constants.expoConfig?.version,
-            platform: Platform.OS,
-          }),
-        });
-        const json: AppConfigType = await response.json();
-
-        if (!response.ok) {
-          throw new Error(JSON.stringify(json));
-        }
-
-        if (!isEqual(json, appConfig)) {
-          setAppConfig(json);
-        }
-
-        if (userDetails?.user_id || userDetails?.name || userDetails?.email) {
-          updateUser(userDetails);
-        }
-      } catch (error) {
-        console.error('Failed to fetch engagement config: ', error);
+    if (data) {
+      if (!isEqual(data, appConfig)) {
+        setAppConfig(data);
       }
     }
-  }, [appConfig, appSecret, appKey, getAnonymousUserId, userDetails, updateUser]);
+
+    if (userDetails?.user_id || userDetails?.name || userDetails?.email) {
+      updateUser(userDetails);
+    }
+  }, [appConfig, appSecret, appKey, userDetails, updateUser]);
 
   const updateInAppGuidesSeenStatus = useCallback(
     async (data: InAppGuidesStatus) => {
-      const anonymous_user_id = await getAnonymousUserId();
-      try {
-        if (!appKey || !appSecret) {
-          throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
-        }
-
-        if (!anonymous_user_id) {
-          throw new Error('Organization user does not exist');
-        }
-
-        const response = await fetch(IN_APP_GUIDE_SEEN_API, {
-          method: 'POST',
-          headers: {
-            'x-app-secret': appSecret,
-          },
-          body: JSON.stringify({
-            app_key: appKey,
-            anonymous_user_id,
-            in_app_guide_ids: data,
-            platform: Platform.OS,
-          }),
-        });
-
-        if (!response.ok) {
-          const json = await response.json();
-          throw new Error(JSON.stringify(json));
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Aatlas updateInAppGuidesSeenStatus failed: ', error.message);
-        } else {
-          console.error('Aatlas updateInAppGuidesSeenStatus failed: ', error);
-        }
-      }
+      await aatlasFetch({
+        appKey,
+        appSecret,
+        url: IN_APP_GUIDE_SEEN_API,
+        body: {
+          app_key: appKey,
+          in_app_guide_ids: data,
+          platform: Platform.OS,
+        },
+        scope: 'updateInAppGuidesSeenStatus',
+      });
 
       return null;
     },
-    [appSecret, appKey, getAnonymousUserId]
+    [appSecret, appKey]
   );
 
   useEffect(() => {
