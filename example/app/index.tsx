@@ -1,24 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import { Button, View } from 'react-native';
-import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
-
-const UserProfile = () => {
-  const { setUser } = useAatlasService();
-
-  React.useEffect(() => {
-    setUser({
-      user_id: '12345',
-      name: 'Dave roe',
-      email: 'dave.roe@test.com',
-    });
-  }, [setUser]);
-
-  return null;
-};
+import InAppGuide, { AatlasProvider, Feedback } from '@aatlas/engagement-expo';
 
 export default function Index() {
-  const [visible, setVisible] = React.useState<boolean>(false);
+  const feedbackRef = React.useRef<any>();
+  const guidesRef = React.useRef<any>();
+
   return (
     <AatlasProvider appKey="" appSecret="">
       <View
@@ -28,12 +16,10 @@ export default function Index() {
           alignItems: 'center',
         }}
       >
-        <Button title="Open In app guide" onPress={() => setVisible(true)} />
+        <Button title="Open In app guides" onPress={() => guidesRef?.current?.open?.()} />
         <InAppGuide
-          visible={visible}
-          onClose={() => {
-            setVisible(false);
-          }}
+          guidesRef={guidesRef}
+          onClose={() => {}}
           containerStyle={{}}
           titleStyle={{}}
           descriptionStyle={{}}
@@ -42,7 +28,20 @@ export default function Index() {
           contentContainerStyle={{}}
           onCarouselChange={(data) => console.log(data)}
         />
-        <UserProfile />
+        <Button title="Open feedback" onPress={() => feedbackRef?.current?.open?.()} />
+        <Feedback
+          feedbackRef={feedbackRef}
+          title="Feedback"
+          placeholder="What would you like to share?"
+          subtitle="Your feedback is very important to us. Please take a few minutes and leave us a feedback."
+          titleStyle={{}}
+          inputStyle={{}}
+          subtitleStyle={{}}
+          containerStyle={{}}
+          buttonTitleStyle={{}}
+          buttonContainerStyle={{}}
+          onClosePress={() => {}}
+        />
       </View>
     </AatlasProvider>
   );
