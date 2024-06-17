@@ -31,6 +31,7 @@ const Feedback = ({
   containerStyle,
   buttonTitleStyle,
   buttonContainerStyle,
+  onClosePress = () => {},
 }: {
   feedbackRef: React.MutableRefObject<any>;
   title?: string;
@@ -42,6 +43,7 @@ const Feedback = ({
   containerStyle?: StyleProp<ViewStyle>;
   buttonContainerStyle?: StyleProp<ViewStyle>;
   buttonTitleStyle?: StyleProp<TextStyle>;
+  onClosePress?: () => void;
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -52,7 +54,8 @@ const Feedback = ({
     setIsLoading(false);
     setMessage('');
     setVisible(false);
-  }, []);
+    onClosePress();
+  }, [onClosePress]);
 
   useEffect(() => {
     if (feedbackRef) {

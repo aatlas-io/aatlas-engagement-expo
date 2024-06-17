@@ -21,8 +21,8 @@ import { CLOSE_URI } from '../../constants';
 const { width } = Dimensions.get('window');
 
 const InAppGuide = ({
-  visible,
-  onClose,
+  guidesRef,
+  onClose = () => {},
   containerStyle,
   contentContainerStyle,
   titleStyle,
@@ -31,8 +31,8 @@ const InAppGuide = ({
   unselectedDotColor,
   onCarouselChange = () => undefined,
 }: {
-  visible: boolean;
-  onClose: () => void;
+  guidesRef: React.MutableRefObject<any>;
+  onClose?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
@@ -42,6 +42,7 @@ const InAppGuide = ({
   onCarouselChange?: (data: any) => void;
 }) => {
   const { appConfig, updateInAppGuidesSeenStatus, resetInAppGuides } = useAatlasService();
+  const [visible, setVisible] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const seenIdsRef = useRef<InAppGuidesStatus>({ seen: [], notSeen: [] });
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -79,19 +80,22 @@ const InAppGuide = ({
     updateSeenIds(selectedIndex);
   }, [selectedIndex, updateSeenIds]);
 
-  if (!appConfig?.in_app_guides?.length) {
-    return null;
-  }
-
-  const { in_app_guides } = appConfig;
-
-  const onClosePress = () => {
+  const onClosePress = useCallback(() => {
     updateInAppGuidesSeenStatus(seenIdsRef.current);
     seenIdsRef.current = { seen: [], notSeen: [] };
     resetInAppGuides();
     onClose();
     setSelectedIndex(0);
-  };
+  }, [resetInAppGuides, onClose, setSelectedIndex, updateInAppGuidesSeenStatus]);
+
+  useEffect(() => {
+    if (guidesRef) {
+      guidesRef.current = {
+        open: () => setVisible(true),
+        close: onClosePress,
+      };
+    }
+  }, [guidesRef, onClosePress]);
 
   const handleOnScroll = (event: any) => {
     Animated.event(
@@ -109,6 +113,12 @@ const InAppGuide = ({
       }
     )(event);
   };
+
+  if (!appConfig?.in_app_guides?.length) {
+    return null;
+  }
+
+  const { in_app_guides } = appConfig;
 
   return (
     <Modal animationType="slide" transparent visible={visible}>

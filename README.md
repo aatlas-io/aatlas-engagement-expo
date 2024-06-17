@@ -4,6 +4,8 @@ Enhance feature awareness and drive success with our advanced nudging platform. 
 
 ## Installation
 
+---
+
 ```sh
 npm install @aatlas/engagement-expo
 ```
@@ -16,63 +18,96 @@ yarn add @aatlas/engagement-expo
 
 ## Usage
 
+---
+
+##### App setup
+
 ```js
 import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
 
 // ...
 
-const UserProfile = () => {
-  const { setUser } = useAatlasService();
-
-  useEffect(() => {
-    setUser({
-      user_id: 'XXXX',
-      name: 'John Doe',
-      email: 'john.doe@test.com',
-    });
-  }, [setUser]);
-
-  return (
-    <View>
-      <Text>Set user</Text>
-    </View>
-  );
-};
-
 const App = () => {
-  /**
-   * Control when you want to show the inAppGuide
-   */
-  const [visible, setVisible] = useState(false);
   return (
     /**
      * Copy the 'appKey' and 'appSecret' from your Aatlas dashboard
      */
     <AatlasProvider appKey="<string>" appSecret="<string>">
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Button title="Open In app guide" onPress={() => setVisible(true)} />
-        <InAppGuide
-          visible={visible}
-          onClose={() => {
-            setVisible(false);
-          }}
-          containerStyle={{}}
-          contentContainerStyle={{}}
-          titleStyle={{}}
-          descriptionStyle={{}}
-          onCarouselChange={(data) => console.log(data)}
-          selectedDotColor=""
-          unselectedDotColor=""
-        /> // Use the InAppGuide component with the required props
-        <UserProfile /> // setUser usage
-      </View>
+      //...
     </AatlasProvider>
+  );
+};
+```
+
+##### User setup
+
+> We recommend to set up the user with required <b>`user_id`</b> field to correctly identify their interactions. By default a user is identified using a random uuid and without the <b>`user_id`</b> their info will be removed periodically.
+
+```js
+const UserProfile = () => {
+  const { setUser } = useAatlasService();
+  // ...
+
+  useEffect(() => {
+    setUser({
+      user_id: userId,
+      name: name,
+      email: email,
+    });
+  }, [setUser, userId, name, email]);
+
+  // ...
+};
+```
+
+##### Using In App Guides
+
+```js
+const Home = () => {
+  const guidesRef = React.useRef<any>();
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Button title="Open In app guide" onPress={() => guidesRef?.current?.open?.()} />
+      <InAppGuide
+        guidesRef={guidesRef}
+        onClose={() => {}} // optional
+        containerStyle={{}} // optional
+        contentContainerStyle={{}} // optional
+        titleStyle={{}} // optional
+        descriptionStyle={{}} // optional
+        onCarouselChange={(data) => console.log(data)} // optional
+        selectedDotColor="" // optional
+        unselectedDotColor="" // optional
+      />
+    </View>
+  );
+};
+```
+
+##### Using Feedback
+
+```js
+const Home = () => {
+  const feedbackRef = React.useRef<any>();
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Button title="Open Feedback" onPress={() => feedbackRef?.current?.open?.()} />
+      <Feedback
+        feedbackRef={feedbackRef}
+        title={''} // optional
+        placeholder={''} // optional
+        subtitle={''} // optional
+        titleStyle={{}} // optional
+        inputStyle={{}} // optional
+        subtitleStyle={{}} // optional
+        containerStyle={{}} // optional
+        buttonTitleStyle={{}} // optional
+        buttonContainerStyle={{}} // optional
+        onClosePress={() => {}} // optional
+      />
+    </View>
   );
 };
 ```
