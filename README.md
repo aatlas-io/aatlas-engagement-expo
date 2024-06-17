@@ -41,7 +41,7 @@ const App = () => {
 
 ##### User setup
 
-> We recommend to set up the user with required <b>`user_id`</b> field to correctly identify their interactions. By default a user is identified using a random uuid and without the <b>`user_id`</b> their info will be removed periodically.
+> We recommend to set up the user with the required <b>`user_id`</b> field to correctly identify their interactions. By default a user is identified using a random uuid and without the <b>`user_id`</b> their info will be removed periodically.
 
 ```js
 const UserProfile = () => {
