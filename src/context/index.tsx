@@ -13,9 +13,11 @@ const AatlasServiceContext = createContext<ConfigType>({
   },
   updateInAppGuidesSeenStatus: async (data) => {
     console.log(data);
-    return null;
   },
   resetInAppGuides: () => {},
+  sendFeedback: async (data) => {
+    console.log(data);
+  },
 });
 
 AatlasServiceContext.displayName = 'useAatlasServiceContext';
