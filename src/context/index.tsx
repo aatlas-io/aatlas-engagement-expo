@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
-import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SEND_FEEDBACK_API, SET_USER_API } from '../constants';
+import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SEND_FEEDBACK_API, SESSION_API, SET_USER_API } from '../constants';
 import { aatlasFetch } from '../utils';
 
 const AatlasServiceContext = createContext<ConfigType>({
@@ -148,7 +148,19 @@ export const AatlasProvider = ({
   }, [getAppConfig]);
 
   useEffect(() => {
-    console.log('=>>>>>>>>>> INIT');
+    const logSession = async () => {
+      await aatlasFetch({
+        appKey,
+        appSecret,
+        url: SESSION_API,
+        body: {
+          app_key: appKey,
+          platform: Platform.OS,
+        },
+        scope: 'sendFeedback',
+      });
+    };
+    logSession();
   }, [appKey, appSecret]);
 
   const values = useMemo(
