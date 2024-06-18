@@ -43,39 +43,31 @@ export const AatlasProvider = ({
 }) => {
   const [appConfig, setAppConfig] = useState<AppConfigType | null>(null);
   const appState = useRef(AppState.currentState);
-  const [userDetails, setUserDetails] = useState<{
-    user_id?: string;
-    name?: string;
-    email?: string;
-  }>({ user_id: '', name: '', email: '' });
 
   const resetInAppGuides = useCallback(() => {
     setAppConfig({ in_app_guides: [] });
   }, []);
 
   const setUser = useCallback(
-    ({ user_id, name, email }: { user_id?: string; name?: string; email?: string }) => {
-      setUserDetails({ user_id, name, email });
-    },
-    [setUserDetails]
-  );
-
-  const updateUser = useCallback(
-    async ({ user_id = '', name = '', email = '' }: { user_id?: string; name?: string; email?: string }) => {
-      await aatlasFetch({
-        appKey,
-        appSecret,
-        url: SET_USER_API,
-        body: {
-          app_key: appKey,
-          user_id,
-          name,
-          email,
-          app_version: Constants.expoConfig?.version,
-          platform: Platform.OS,
-        },
-        scope: 'updateUser',
-      });
+    async ({ user_id = '', name = '', email = '' }: { user_id: string; name?: string; email?: string }) => {
+      if (!user_id) {
+        console.error('user_id is required');
+      } else {
+        await aatlasFetch({
+          appKey,
+          appSecret,
+          url: SET_USER_API,
+          body: {
+            app_key: appKey,
+            user_id,
+            name,
+            email,
+            app_version: Constants.expoConfig?.version,
+            platform: Platform.OS,
+          },
+          scope: 'setUser',
+        });
+      }
     },
     [appSecret, appKey]
   );
@@ -98,11 +90,7 @@ export const AatlasProvider = ({
         setAppConfig(data);
       }
     }
-
-    if (userDetails?.user_id || userDetails?.name || userDetails?.email) {
-      updateUser(userDetails);
-    }
-  }, [appConfig, appSecret, appKey, userDetails, updateUser]);
+  }, [appConfig, appSecret, appKey]);
 
   const updateInAppGuidesSeenStatus = useCallback(
     async (data: InAppGuidesStatus) => {
@@ -158,6 +146,10 @@ export const AatlasProvider = ({
       subscription.remove();
     };
   }, [getAppConfig]);
+
+  useEffect(() => {
+    console.log('=>>>>>>>>>> INIT');
+  }, [appKey, appSecret]);
 
   const values = useMemo(
     () => ({
