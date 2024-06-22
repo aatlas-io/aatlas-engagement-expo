@@ -5,7 +5,6 @@ import InAppGuide, { AatlasProvider, Feedback, NPSFeedback } from '@aatlas/engag
 
 export default function Home() {
   const feedbackRef = React.useRef<any>();
-  const npsFeedbackRef = React.useRef<any>();
   const guidesRef = React.useRef<any>();
 
   return (
@@ -43,9 +42,7 @@ export default function Home() {
           buttonContainerStyle={{}}
           onClosePress={() => {}}
         />
-        <Button title="Open NPS feedback" onPress={() => npsFeedbackRef?.current?.open?.()} />
         <NPSFeedback
-          npsFeedbackRef={npsFeedbackRef}
           title="Rate your experience"
           header="How likely are you to recommend us to a friend?"
           placeholder="Tell us more about why you chose this score"

@@ -23,7 +23,6 @@ import Button from '../Button';
 import ScoreView from './ScoreView';
 
 const NPS = ({
-  npsFeedbackRef,
   title = 'Rate your experience',
   header = 'How likely are you to recommend us to a friend?',
   placeholder = 'Tell us more about why you chose this score',
@@ -37,7 +36,6 @@ const NPS = ({
   buttonContainerStyle,
   onClosePress = () => {},
 }: {
-  npsFeedbackRef: React.MutableRefObject<any>;
   title?: string;
   header?: string;
   inputTitle?: string;
@@ -51,28 +49,18 @@ const NPS = ({
   buttonTitleStyle?: StyleProp<TextStyle>;
   onClosePress?: () => void;
 }) => {
-  const [visible, setVisible] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [score, setScore] = useState<number | undefined>();
-  const { sendFeedback } = useAatlasService();
+  const { sendFeedback, appConfig, resetNPSEligibility } = useAatlasService();
 
   const onClose = useCallback(() => {
     setIsLoading(false);
     setMessage('');
-    setVisible(false);
     onClosePress();
     setScore(undefined);
-  }, [onClosePress, setScore]);
-
-  useEffect(() => {
-    if (npsFeedbackRef) {
-      npsFeedbackRef.current = {
-        open: () => setVisible(true),
-        close: onClose,
-      };
-    }
-  }, [npsFeedbackRef, onClose]);
+    resetNPSEligibility();
+  }, [onClosePress, setScore, resetNPSEligibility]);
 
   const submitFeedback = async () => {
     setIsLoading(true);
@@ -84,15 +72,29 @@ const NPS = ({
     onClose();
   };
 
+  if (!appConfig?.nps_eligible) {
+    return null;
+  }
+
   return (
-    <Modal animationType="slide" transparent visible={visible}>
+    <Modal animationType="slide" transparent visible={appConfig.nps_eligible}>
       <SafeAreaView style={[{ flex: 1, backgroundColor: 'transparent' }, containerStyle]}>
         <View style={styles.container}>
           <KeyboardAvoidingView style={styles.bottomContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={{ height: 10 }} />
             <View style={styles.headerContainer}>
               <Text style={[styles.title, titleStyle]}>{title}</Text>
-              <TouchableOpacity style={styles.closeButtonContainer} onPress={onClose}>
+              <TouchableOpacity
+                style={styles.closeButtonContainer}
+                onPress={() => {
+                  sendFeedback({
+                    message,
+                    type: 'nps',
+                    nps_score: score,
+                  });
+                  onClose();
+                }}
+              >
                 <Image style={styles.closeImage} source={{ uri: CLOSE_URI }} resizeMode="contain" />
               </TouchableOpacity>
             </View>

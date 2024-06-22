@@ -7,6 +7,7 @@ type InAppGuideItemType = {
 
 type AppConfigType = {
   in_app_guides: InAppGuideItemType[];
+  nps_eligible: boolean;
 };
 
 type InAppGuidesStatus = {
@@ -25,6 +26,7 @@ type ConfigType = {
   setUser: ({ user_id, name, email }: { user_id: string; name?: string; email?: string }) => Promise<void>;
   updateInAppGuidesSeenStatus: (data: InAppGuidesStatus) => Promise<void>;
   resetInAppGuides: () => void;
+  resetNPSEligibility: () => void;
   sendFeedback: (data: FeedbackType) => Promise<void>;
 };
 
