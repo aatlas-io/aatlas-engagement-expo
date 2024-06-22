@@ -33,7 +33,7 @@ __metadata:
     expo-constants: ~16.0.2
     expo-font: ~12.0.6
     expo-linking: ~6.3.1
-    expo-router: ~3.5.14
+    expo-router: ~3.5.16
     expo-splash-screen: ~0.27.4
     expo-status-bar: ~1.12.1
     expo-system-ui: ~3.0.4
@@ -2447,6 +2447,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo/prebuild-config@npm:7.0.6":
+  version: 7.0.6
+  resolution: "@expo/prebuild-config@npm:7.0.6"
+  dependencies:
+    "@expo/config": ~9.0.0-beta.0
+    "@expo/config-plugins": ~8.0.0-beta.0
+    "@expo/config-types": ^51.0.0-unreleased
+    "@expo/image-utils": ^0.5.0
+    "@expo/json-file": ^8.3.0
+    "@react-native/normalize-colors": 0.74.84
+    debug: ^4.3.1
+    fs-extra: ^9.0.0
+    resolve-from: ^5.0.0
+    semver: ^7.6.0
+    xml2js: 0.6.0
+  peerDependencies:
+    expo-modules-autolinking: ">=0.8.1"
+  checksum: 7210870c33b0fd78c4a1e758f801af3f47e16cf67a3a4a46a12bb10ad242e7925ec7f027dc348b6b4121c04ab76924630730f49debe086ccb95f72dc11c39c10
+  languageName: node
+  linkType: hard
+
 "@expo/rudder-sdk-node@npm:1.1.1":
   version: 1.1.1
   resolution: "@expo/rudder-sdk-node@npm:1.1.1"
@@ -3636,6 +3657,13 @@ __metadata:
   version: 0.74.83
   resolution: "@react-native/normalize-colors@npm:0.74.83"
   checksum: 87e5c5a7d24b0119ba468f2ecbdcb309ac24581a402ff24c980d20c96ec016ccdcabb997c0411393292def859834c785fc8115af91d87bc89b87fb114922ad94
+  languageName: node
+  linkType: hard
+
+"@react-native/normalize-colors@npm:0.74.84":
+  version: 0.74.84
+  resolution: "@react-native/normalize-colors@npm:0.74.84"
+  checksum: e9a7b3020e6a298ba1c7310d267ef90c39327cb2ed7899bf3778224e52b280802899420dbf36fb8c1a37914f410be0187a9796c1790c1dca86404a40a948235a
   languageName: node
   linkType: hard
 
@@ -8796,9 +8824,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-router@npm:~3.5.14":
-  version: 3.5.14
-  resolution: "expo-router@npm:3.5.14"
+"expo-router@npm:~3.5.16":
+  version: 3.5.16
+  resolution: "expo-router@npm:3.5.16"
   dependencies:
     "@expo/metro-runtime": 3.2.1
     "@expo/server": ^0.4.0
@@ -8806,7 +8834,7 @@ __metadata:
     "@react-navigation/bottom-tabs": ~6.5.7
     "@react-navigation/native": ~6.1.6
     "@react-navigation/native-stack": ~6.9.12
-    expo-splash-screen: 0.27.4
+    expo-splash-screen: 0.27.5
     react-native-helmet-async: 2.0.4
     schema-utils: ^4.0.1
   peerDependencies:
@@ -8825,11 +8853,22 @@ __metadata:
       optional: true
     react-native-reanimated:
       optional: true
-  checksum: edec0cad9ee9246b2a2a5bdf71960c993657a6d28b4859ad4b9a26a518bc52adbe166b90074315e709b9c952d3226edff1ce2dcebbbb53778cbde5859d1e266e
+  checksum: 7bbbbca69bd3fe8cdf77440f6a3c8bdaab22bede1a49e57eaef4868d77465e232410e462f6c20349da8ed537cc90fa1009fc114ee78552a69cc4d78b54b49ca2
   languageName: node
   linkType: hard
 
-"expo-splash-screen@npm:0.27.4, expo-splash-screen@npm:~0.27.4":
+"expo-splash-screen@npm:0.27.5":
+  version: 0.27.5
+  resolution: "expo-splash-screen@npm:0.27.5"
+  dependencies:
+    "@expo/prebuild-config": 7.0.6
+  peerDependencies:
+    expo: "*"
+  checksum: db82996f2b6b40c566f16f51e3d4f68f6e9fba8f4923455b296a79ff68dd7746f3938714d02220687254d47512f928bc10b0dede2e890db652a37da98586f674
+  languageName: node
+  linkType: hard
+
+"expo-splash-screen@npm:~0.27.4":
   version: 0.27.4
   resolution: "expo-splash-screen@npm:0.27.4"
   dependencies:

@@ -17,6 +17,7 @@ type InAppGuidesStatus = {
 type FeedbackType = {
   message: string;
   type: 'nps' | 'general';
+  nps_score?: number;
 };
 
 type ConfigType = {

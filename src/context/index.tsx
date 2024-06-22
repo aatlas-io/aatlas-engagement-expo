@@ -110,7 +110,7 @@ export const AatlasProvider = ({
   );
 
   const sendFeedback = useCallback(
-    async ({ message, type }: FeedbackType) => {
+    async ({ message, type, nps_score }: FeedbackType) => {
       await aatlasFetch({
         appKey,
         appSecret,
@@ -120,6 +120,7 @@ export const AatlasProvider = ({
           message,
           type,
           platform: Platform.OS,
+          nps_score,
         },
         scope: 'sendFeedback',
       });

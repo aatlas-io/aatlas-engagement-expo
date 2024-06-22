@@ -5,11 +5,11 @@ import InAppGuide, { AatlasProvider, Feedback, NPSFeedback } from '@aatlas/engag
 
 export default function Home() {
   const feedbackRef = React.useRef<any>();
+  const npsFeedbackRef = React.useRef<any>();
   const guidesRef = React.useRef<any>();
 
   return (
     <AatlasProvider appKey="817fd0ad-277e-497b-9fdb-ace2b53fa088" appSecret="P5fhvK_Y8d_IRUX2H7Z36l7OhWaZ6YNUV7IcJHBC">
-      <NPSFeedback />
       <View
         style={{
           flex: 1,
@@ -38,6 +38,22 @@ export default function Home() {
           titleStyle={{}}
           inputStyle={{}}
           subtitleStyle={{}}
+          containerStyle={{}}
+          buttonTitleStyle={{}}
+          buttonContainerStyle={{}}
+          onClosePress={() => {}}
+        />
+        <Button title="Open NPS feedback" onPress={() => npsFeedbackRef?.current?.open?.()} />
+        <NPSFeedback
+          npsFeedbackRef={npsFeedbackRef}
+          title="Rate your experience"
+          header="How likely are you to recommend us to a friend?"
+          placeholder="Tell us more about why you chose this score"
+          titleStyle={{}}
+          headerStyle={{}}
+          inputTitle="Feedback"
+          inputStyle={{}}
+          inputTitleStyle={{}}
           containerStyle={{}}
           buttonTitleStyle={{}}
           buttonContainerStyle={{}}
