@@ -8,7 +8,7 @@ export default function Home() {
   const guidesRef = React.useRef<any>();
 
   return (
-    <AatlasProvider appKey="817fd0ad-277e-497b-9fdb-ace2b53fa088" appSecret="P5fhvK_Y8d_IRUX2H7Z36l7OhWaZ6YNUV7IcJHBC">
+    <AatlasProvider appKey="" appSecret="">
       <View
         style={{
           flex: 1,
