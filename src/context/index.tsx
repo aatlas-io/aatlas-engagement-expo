@@ -18,6 +18,7 @@ const AatlasServiceContext = createContext<ConfigType>({
   sendFeedback: async (data) => {
     console.log(data);
   },
+  resetNPSEligibility: () => {},
 });
 
 AatlasServiceContext.displayName = 'useAatlasServiceContext';
@@ -45,8 +46,16 @@ export const AatlasProvider = ({
   const appState = useRef(AppState.currentState);
 
   const resetInAppGuides = useCallback(() => {
-    setAppConfig({ in_app_guides: [] });
-  }, []);
+    if (appConfig) {
+      setAppConfig({ ...appConfig, in_app_guides: [] });
+    }
+  }, [appConfig]);
+
+  const resetNPSEligibility = useCallback(() => {
+    if (appConfig) {
+      setAppConfig({ ...appConfig, nps_eligible: false });
+    }
+  }, [appConfig]);
 
   const setUser = useCallback(
     async ({ user_id = '', name = '', email = '' }: { user_id: string; name?: string; email?: string }) => {
@@ -110,7 +119,7 @@ export const AatlasProvider = ({
   );
 
   const sendFeedback = useCallback(
-    async ({ message, type }: FeedbackType) => {
+    async ({ message, type, nps_score }: FeedbackType) => {
       await aatlasFetch({
         appKey,
         appSecret,
@@ -120,6 +129,7 @@ export const AatlasProvider = ({
           message,
           type,
           platform: Platform.OS,
+          nps_score,
         },
         scope: 'sendFeedback',
       });
@@ -170,8 +180,9 @@ export const AatlasProvider = ({
       setUser,
       resetInAppGuides,
       sendFeedback,
+      resetNPSEligibility,
     }),
-    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback]
+    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback, resetNPSEligibility]
   );
 
   return <AatlasServiceContext.Provider value={values}>{children}</AatlasServiceContext.Provider>;

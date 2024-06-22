@@ -20,8 +20,8 @@ const Button = ({
 }: {
   title: string;
   onPress: () => void;
-  isLoading: boolean;
-  disabled: boolean;
+  isLoading?: boolean;
+  disabled?: boolean;
   titleStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
 }) => (
