@@ -29,7 +29,7 @@ export const aatlasFetch = async ({
   try {
     const anonymous_user_id = await getAnonymousUserId();
     if (!appKey || !appSecret) {
-      throw new Error('@aatlas/engagement app is not initialized. Please follow the documentation');
+      throw new Error('@aatlas/engagement-expo app is not initialized. Please follow the documentation');
     }
 
     if (!anonymous_user_id) {

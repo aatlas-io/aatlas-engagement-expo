@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -35,6 +35,7 @@ const NPS = ({
   buttonTitleStyle,
   buttonContainerStyle,
   onClosePress = () => {},
+  showDelay = 2000,
 }: {
   title?: string;
   header?: string;
@@ -48,10 +49,12 @@ const NPS = ({
   buttonContainerStyle?: StyleProp<ViewStyle>;
   buttonTitleStyle?: StyleProp<TextStyle>;
   onClosePress?: () => void;
+  showDelay?: number;
 }) => {
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [score, setScore] = useState<number | undefined>();
+  const [showNow, setShowNow] = useState<boolean>(false);
   const { sendFeedback, appConfig, resetNPSEligibility } = useAatlasService();
 
   const onClose = useCallback(() => {
@@ -60,6 +63,7 @@ const NPS = ({
     onClosePress();
     setScore(undefined);
     resetNPSEligibility();
+    setShowNow(false);
   }, [onClosePress, setScore, resetNPSEligibility]);
 
   const submitFeedback = async () => {
@@ -72,12 +76,18 @@ const NPS = ({
     onClose();
   };
 
+  useEffect(() => {
+    if (appConfig?.nps_eligible) {
+      setTimeout(() => setShowNow(true), showDelay);
+    }
+  }, [appConfig, showDelay]);
+
   if (!appConfig?.nps_eligible) {
     return null;
   }
 
   return (
-    <Modal animationType="slide" transparent visible={appConfig.nps_eligible}>
+    <Modal animationType="slide" transparent visible={appConfig.nps_eligible && showNow}>
       <SafeAreaView style={[{ flex: 1, backgroundColor: 'transparent' }, containerStyle]}>
         <View style={styles.container}>
           <KeyboardAvoidingView style={styles.bottomContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

@@ -131,7 +131,7 @@ export const AatlasProvider = ({
           platform: Platform.OS,
           nps_score,
         },
-        scope: 'sendFeedback',
+        scope: `${type}_${sendFeedback}`,
       });
     },
     [appSecret, appKey]
@@ -167,7 +167,7 @@ export const AatlasProvider = ({
           app_key: appKey,
           platform: Platform.OS,
         },
-        scope: 'sendFeedback',
+        scope: 'logSession',
       });
     };
     logSession();
