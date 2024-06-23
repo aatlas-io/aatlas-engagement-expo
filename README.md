@@ -46,6 +46,10 @@ const App = () => {
 > We recommend to set up the user with the required <b>`user_id`</b> field to correctly identify them on the dashboard.
 
 ```js
+import { useAatlasService } from '@aatlas/engagement-expo';
+
+// ...
+
 const UserProfile = () => {
   const { setUser } = useAatlasService();
   // ...
@@ -65,6 +69,10 @@ const UserProfile = () => {
 ##### Using In App Guides
 
 ```js
+import { InAppGuide } from '@aatlas/engagement-expo';
+
+// ...
+
 const Home = () => {
   const guidesRef = React.useRef<any>();
 
@@ -90,6 +98,10 @@ const Home = () => {
 ##### Using Feedback
 
 ```js
+import { Feedback } from '@aatlas/engagement-expo';
+
+// ...
+
 const Home = () => {
   const feedbackRef = React.useRef<any>();
 
