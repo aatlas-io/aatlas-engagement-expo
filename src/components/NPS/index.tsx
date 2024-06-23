@@ -36,6 +36,7 @@ const NPS = ({
   buttonContainerStyle,
   onClosePress = () => {},
   showDelay = 2000,
+  withFeedback = true,
 }: {
   title?: string;
   header?: string;
@@ -50,6 +51,7 @@ const NPS = ({
   buttonTitleStyle?: StyleProp<TextStyle>;
   onClosePress?: () => void;
   showDelay?: number;
+  withFeedback?: boolean;
 }) => {
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -112,22 +114,27 @@ const NPS = ({
               <Text style={[styles.header, headerStyle]}>{header}</Text>
               <View style={{ height: 16 }} />
               <ScoreView selectedScore={score} onScoreSelect={(s) => setScore(s)} />
-              <View style={{ height: 16 }} />
-              <Text style={[styles.inputTitle, inputTitleStyle]}>{inputTitle}</Text>
-              <TextInput
-                style={[styles.input, inputStyle]}
-                value={message}
-                onChangeText={setMessage}
-                placeholder={placeholder}
-                multiline
-                maxLength={300}
-                placeholderTextColor="#637587"
-                returnKeyType="done"
-                selectionColor={'black'}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit
-                textAlignVertical="top"
-              />
+              {withFeedback ? (
+                <>
+                  <View style={{ height: 16 }} />
+                  <Text style={[styles.inputTitle, inputTitleStyle]}>{inputTitle}</Text>
+                  <TextInput
+                    style={[styles.input, inputStyle]}
+                    value={message}
+                    onChangeText={setMessage}
+                    placeholder={placeholder}
+                    multiline
+                    maxLength={300}
+                    placeholderTextColor="#637587"
+                    returnKeyType="done"
+                    selectionColor={'black'}
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit
+                    textAlignVertical="top"
+                  />
+                </>
+              ) : null}
+
               <View style={{ height: 16 }} />
               <Button
                 title="Submit"

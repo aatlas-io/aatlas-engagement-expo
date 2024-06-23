@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NPSFeedback } from '@aatlas/engagement-expo';
+import { NPS } from '@aatlas/engagement-expo';
 
 export default function Settings() {
   return (
     <View style={styles.container}>
       <Text>Settings tab</Text>
-      <NPSFeedback
+      <NPS
         title="Rate your experience"
         header="How likely are you to recommend us to a friend?"
         placeholder="Tell us more about why you chose this score"
@@ -20,6 +20,7 @@ export default function Settings() {
         buttonContainerStyle={{}}
         onClosePress={() => {}}
         showDelay={2000}
+        withFeedback
       />
     </View>
   );

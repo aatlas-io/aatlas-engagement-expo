@@ -131,14 +131,14 @@ const Home = () => {
 Setup the NPS segment from your Aatlas dashboard and add the component in the desired screen.
 
 ```js
-import { NPSFeedback } from '@aatlas/engagement-expo';
+import { NPS } from '@aatlas/engagement-expo';
 
 // ....
 
 const Home = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <NPSFeedback
+      <NPS
         title="Rate your experience" // optional
         header="How likely are you to recommend us to a friend?" // optional
         placeholder="Tell us more about why you chose this score" // optional
@@ -152,6 +152,7 @@ const Home = () => {
         buttonContainerStyle={{}} // optional
         onClosePress={() => {}} // optional
         showDelay={2000} // optional
+        withFeedback // optional
       />
     </View>
   );
