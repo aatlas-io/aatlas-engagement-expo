@@ -116,6 +116,8 @@ const Home = () => {
 
 ##### Using NPS Feedback
 
+Setup the NPS segment from your Aatlas dashboard and add the component in the desired screen.
+
 ```js
 import { NPSFeedback } from '@aatlas/engagement-expo';
 
