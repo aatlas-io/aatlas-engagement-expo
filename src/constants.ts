@@ -5,6 +5,7 @@ export const SET_USER_API = `${BASE_API}/engagement/user`;
 export const IN_APP_GUIDE_SEEN_API = `${BASE_API}/engagement/inAppGuide`;
 export const SEND_FEEDBACK_API = `${BASE_API}/engagement/feedback`;
 export const SESSION_API = `${BASE_API}/engagement/session`;
+export const LAST_SEEN_API = `${BASE_API}/engagement/lastSeen`;
 
 export const ANONYMOUS_USER_ID_KEY = '@anonymous_user_id';
 

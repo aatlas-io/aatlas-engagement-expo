@@ -3,7 +3,14 @@ import type { ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
-import { ENGAGEMENT_API, IN_APP_GUIDE_SEEN_API, SEND_FEEDBACK_API, SESSION_API, SET_USER_API } from '../constants';
+import {
+  ENGAGEMENT_API,
+  IN_APP_GUIDE_SEEN_API,
+  LAST_SEEN_API,
+  SEND_FEEDBACK_API,
+  SESSION_API,
+  SET_USER_API,
+} from '../constants';
 import { aatlasFetch } from '../utils';
 
 const AatlasServiceContext = createContext<ConfigType>({
@@ -19,6 +26,7 @@ const AatlasServiceContext = createContext<ConfigType>({
     console.log(data);
   },
   resetNPSEligibility: () => {},
+  setLastSeen: async () => {},
 });
 
 AatlasServiceContext.displayName = 'useAatlasServiceContext';
@@ -54,6 +62,12 @@ export const AatlasProvider = ({
   const resetNPSEligibility = useCallback(() => {
     if (appConfig) {
       setAppConfig({ ...appConfig, nps_eligible: false });
+    }
+  }, [appConfig]);
+
+  const resetAnnouncement = useCallback(() => {
+    if (appConfig) {
+      setAppConfig({ ...appConfig, announcement: null });
     }
   }, [appConfig]);
 
@@ -173,6 +187,23 @@ export const AatlasProvider = ({
     logSession();
   }, [appKey, appSecret]);
 
+  const setLastSeen = useCallback(
+    async ({ key }: { key: string }) => {
+      await aatlasFetch({
+        appKey,
+        appSecret,
+        url: LAST_SEEN_API,
+        body: {
+          app_key: appKey,
+          last_seen_key: key,
+        },
+        scope: 'setLastSeen',
+      });
+      resetAnnouncement();
+    },
+    [appSecret, appKey, resetAnnouncement]
+  );
+
   const values = useMemo(
     () => ({
       appConfig,
@@ -181,8 +212,9 @@ export const AatlasProvider = ({
       resetInAppGuides,
       sendFeedback,
       resetNPSEligibility,
+      setLastSeen,
     }),
-    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback, resetNPSEligibility]
+    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback, resetNPSEligibility, setLastSeen]
   );
 
   return <AatlasServiceContext.Provider value={values}>{children}</AatlasServiceContext.Provider>;

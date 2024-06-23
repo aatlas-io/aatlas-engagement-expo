@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NPS } from '@aatlas/engagement-expo';
+import { NPS, Announcement } from '@aatlas/engagement-expo';
 
 export default function Settings() {
   return (
     <View style={styles.container}>
       <Text>Settings tab</Text>
+      <Announcement />
+
       <NPS
         title="Rate your experience"
         header="How likely are you to recommend us to a friend?"

@@ -8,6 +8,10 @@ type InAppGuideItemType = {
 type AppConfigType = {
   in_app_guides: InAppGuideItemType[];
   nps_eligible: boolean;
+  announcement: {
+    title: string;
+    message: string;
+  } | null;
 };
 
 type InAppGuidesStatus = {
@@ -28,6 +32,7 @@ type ConfigType = {
   resetInAppGuides: () => void;
   resetNPSEligibility: () => void;
   sendFeedback: (data: FeedbackType) => Promise<void>;
+  setLastSeen: ({ key }: { key: string }) => Promise<void>;
 };
 
 type GlobalDataType = {
