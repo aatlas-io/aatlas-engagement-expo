@@ -22,8 +22,10 @@ yarn add @aatlas/engagement-expo
 
 ##### App setup
 
+Wrap your app root with `AatlasProvider`
+
 ```js
-import InAppGuide, { AatlasProvider, useAatlasService } from '@aatlas/engagement-expo';
+import { AatlasProvider } from '@aatlas/engagement-expo';
 
 // ...
 
@@ -41,7 +43,7 @@ const App = () => {
 
 ##### User setup
 
-> We recommend to set up the user with the required <b>`user_id`</b> field to correctly identify their interactions. By default a user is identified using a random uuid and without the <b>`user_id`</b> their info will be removed periodically.
+> We recommend to set up the user with the required <b>`user_id`</b> field to correctly identify them on the dashboard.
 
 ```js
 const UserProfile = () => {
@@ -106,6 +108,36 @@ const Home = () => {
         buttonTitleStyle={{}} // optional
         buttonContainerStyle={{}} // optional
         onClosePress={() => {}} // optional
+      />
+    </View>
+  );
+};
+```
+
+##### Using NPS Feedback
+
+```js
+import { NPSFeedback } from '@aatlas/engagement-expo';
+
+// ....
+
+const Home = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <NPSFeedback
+        title="Rate your experience" // optional
+        header="How likely are you to recommend us to a friend?" // optional
+        placeholder="Tell us more about why you chose this score" // optional
+        titleStyle={{}} // optional
+        headerStyle={{}} // optional
+        inputTitle="Feedback" // optional
+        inputStyle={{}} // optional
+        inputTitleStyle={{}} // optional
+        containerStyle={{}} // optional
+        buttonTitleStyle={{}} // optional
+        buttonContainerStyle={{}} // optional
+        onClosePress={() => {}} // optional
+        showDelay={2000} // optional
       />
     </View>
   );
