@@ -3,23 +3,13 @@ import type { ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import isEqual from 'lodash.isequal';
-import {
-  ENGAGEMENT_API,
-  IN_APP_GUIDE_SEEN_API,
-  LAST_SEEN_API,
-  SEND_FEEDBACK_API,
-  SESSION_API,
-  SET_USER_API,
-} from '../constants';
+import { ENGAGEMENT_API, LAST_SEEN_API, SEND_FEEDBACK_API, SESSION_API, SET_USER_API } from '../constants';
 import { aatlasFetch } from '../utils';
 
 const AatlasServiceContext = createContext<ConfigType>({
   appConfig: null,
   setUser: async ({ user_id, name, email }) => {
     console.log({ user_id, name, email });
-  },
-  updateInAppGuidesSeenStatus: async (data) => {
-    console.log(data);
   },
   resetInAppGuides: () => {},
   sendFeedback: async (data) => {
@@ -115,23 +105,6 @@ export const AatlasProvider = ({
     }
   }, [appConfig, appSecret, appKey]);
 
-  const updateInAppGuidesSeenStatus = useCallback(
-    async (data: InAppGuidesStatus) => {
-      await aatlasFetch({
-        appKey,
-        appSecret,
-        url: IN_APP_GUIDE_SEEN_API,
-        body: {
-          app_key: appKey,
-          in_app_guide_ids: data,
-          platform: Platform.OS,
-        },
-        scope: 'updateInAppGuidesSeenStatus',
-      });
-    },
-    [appSecret, appKey]
-  );
-
   const sendFeedback = useCallback(
     async ({ message, type, nps_score }: FeedbackType) => {
       await aatlasFetch({
@@ -189,6 +162,17 @@ export const AatlasProvider = ({
 
   const setLastSeen = useCallback(
     async ({ key }: { key: string }) => {
+      switch (key) {
+        case 'announcement':
+          resetAnnouncement();
+          break;
+        case 'iag_last_seen_mobile':
+          resetInAppGuides();
+          break;
+        default:
+          break;
+      }
+
       await aatlasFetch({
         appKey,
         appSecret,
@@ -197,24 +181,22 @@ export const AatlasProvider = ({
           app_key: appKey,
           last_seen_key: key,
         },
-        scope: 'setLastSeen',
+        scope: `${key}_setLastSeen`,
       });
-      resetAnnouncement();
     },
-    [appSecret, appKey, resetAnnouncement]
+    [appSecret, appKey, resetAnnouncement, resetInAppGuides]
   );
 
   const values = useMemo(
     () => ({
       appConfig,
-      updateInAppGuidesSeenStatus,
       setUser,
       resetInAppGuides,
       sendFeedback,
       resetNPSEligibility,
       setLastSeen,
     }),
-    [appConfig, updateInAppGuidesSeenStatus, setUser, resetInAppGuides, sendFeedback, resetNPSEligibility, setLastSeen]
+    [appConfig, setUser, resetInAppGuides, sendFeedback, resetNPSEligibility, setLastSeen]
   );
 
   return <AatlasServiceContext.Provider value={values}>{children}</AatlasServiceContext.Provider>;

@@ -28,7 +28,6 @@ type FeedbackType = {
 type ConfigType = {
   appConfig: AppConfigType | null;
   setUser: ({ user_id, name, email }: { user_id: string; name?: string; email?: string }) => Promise<void>;
-  updateInAppGuidesSeenStatus: (data: InAppGuidesStatus) => Promise<void>;
   resetInAppGuides: () => void;
   resetNPSEligibility: () => void;
   sendFeedback: (data: FeedbackType) => Promise<void>;

@@ -43,7 +43,7 @@ const Announcement = ({
   const { appConfig, setLastSeen } = useAatlasService();
 
   const onClose = async () => {
-    setLastSeen({ key: 'announcement_last_seen' });
+    setLastSeen({ key: 'announcement_last_seen_mobile' });
     setVisible(false);
     onClosePress();
   };

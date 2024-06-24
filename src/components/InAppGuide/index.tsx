@@ -41,52 +41,25 @@ const InAppGuide = ({
   unselectedDotColor?: string;
   onCarouselChange?: (data: any) => void;
 }) => {
-  const { appConfig, updateInAppGuidesSeenStatus, resetInAppGuides } = useAatlasService();
+  const { appConfig, setLastSeen } = useAatlasService();
   const [visible, setVisible] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const seenIdsRef = useRef<InAppGuidesStatus>({ seen: [], notSeen: [] });
   const scrollX = useRef(new Animated.Value(0)).current;
-
-  const updateSeenIds = useCallback(
-    (index: number) => {
-      const selectedId = appConfig?.in_app_guides?.[index]?.id;
-      const allIds = appConfig?.in_app_guides?.map((iag) => iag.id) || [];
-      if (selectedId) {
-        if (!seenIdsRef.current.seen.includes(selectedId)) {
-          seenIdsRef.current.seen.push(selectedId);
-        }
-
-        seenIdsRef.current.notSeen = allIds?.filter((id) => !seenIdsRef.current.seen.includes(id));
-      }
-    },
-    [appConfig?.in_app_guides]
-  );
-
-  const updateSelectedIndex = (index: number) => {
-    updateSeenIds(index);
-    setSelectedIndex(index);
-  };
 
   const handleOnViewableItemsChanged = useRef(({ viewableItems }: any) => {
     onCarouselChange(viewableItems[0]);
-    updateSelectedIndex(viewableItems[0].index);
+    setSelectedIndex(viewableItems[0].index);
   }).current;
 
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   }).current;
 
-  useEffect(() => {
-    updateSeenIds(selectedIndex);
-  }, [selectedIndex, updateSeenIds]);
-
   const onClosePress = useCallback(() => {
-    updateInAppGuidesSeenStatus(seenIdsRef.current);
-    seenIdsRef.current = { seen: [], notSeen: [] };
-    resetInAppGuides();
+    setLastSeen({ key: 'iag_last_seen_mobile' });
     onClose();
     setSelectedIndex(0);
-  }, [resetInAppGuides, onClose, setSelectedIndex, updateInAppGuidesSeenStatus]);
+  }, [onClose, setSelectedIndex, setLastSeen]);
 
   useEffect(() => {
     if (guidesRef) {
