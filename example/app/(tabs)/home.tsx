@@ -1,11 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { Button, View } from 'react-native';
-import { InAppGuide, Feedback } from '@aatlas/engagement-expo';
+import { InAppGuide, Feedback, useAatlasService } from '@aatlas/engagement-expo';
 
 export default function Home() {
   const feedbackRef = React.useRef<any>();
   const guidesRef = React.useRef<any>();
+  const { logPageVisit } = useAatlasService();
+
+  useEffect(() => {
+    logPageVisit({ page: 'Home' });
+  }, [logPageVisit]);
 
   return (
     <View

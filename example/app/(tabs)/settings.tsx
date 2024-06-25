@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NPS, Announcement } from '@aatlas/engagement-expo';
+import { NPS, Announcement, useAatlasService } from '@aatlas/engagement-expo';
 
 export default function Settings() {
+  const { logPageVisit } = useAatlasService();
+
+  useEffect(() => {
+    logPageVisit({ page: 'Settings' });
+  }, [logPageVisit]);
+
   return (
     <View style={styles.container}>
       <Text>Settings tab</Text>

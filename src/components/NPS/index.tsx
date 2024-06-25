@@ -57,16 +57,15 @@ const NPS = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [score, setScore] = useState<number | undefined>();
   const [showNow, setShowNow] = useState<boolean>(false);
-  const { sendFeedback, appConfig, resetNPSEligibility } = useAatlasService();
+  const { sendFeedback, appConfig } = useAatlasService();
 
   const onClose = useCallback(() => {
     setIsLoading(false);
     setMessage('');
     onClosePress();
     setScore(undefined);
-    resetNPSEligibility();
     setShowNow(false);
-  }, [onClosePress, setScore, resetNPSEligibility]);
+  }, [onClosePress, setScore]);
 
   const submitFeedback = async () => {
     setIsLoading(true);

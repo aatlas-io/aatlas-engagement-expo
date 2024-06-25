@@ -14,11 +14,6 @@ type AppConfigType = {
   } | null;
 };
 
-type InAppGuidesStatus = {
-  seen: number[];
-  notSeen: number[];
-};
-
 type FeedbackType = {
   message: string;
   type: 'nps' | 'general';
@@ -28,27 +23,9 @@ type FeedbackType = {
 type ConfigType = {
   appConfig: AppConfigType | null;
   setUser: ({ user_id, name, email }: { user_id: string; name?: string; email?: string }) => Promise<void>;
-  resetInAppGuides: () => void;
-  resetNPSEligibility: () => void;
   sendFeedback: (data: FeedbackType) => Promise<void>;
   setLastSeen: ({ key }: { key: string }) => Promise<void>;
-};
-
-type GlobalDataType = {
-  appKey: string;
-  appSecret: string;
-  anonymousUserId: string;
-};
-
-type AppDataType = {
-  appKey: string;
-  appSecret: string;
-};
-
-type GlobalDataReturnType = {
-  getGlobalData: () => GlobalDataType;
-  setAppData: (data: AppDataType) => void;
-  getAnonymousUserId: () => Promise<string>;
+  logPageVisit: ({ page }: { page: string }) => Promise<void>;
 };
 
 declare module '*.jpg';
